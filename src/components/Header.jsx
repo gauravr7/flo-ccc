@@ -4,7 +4,6 @@ import {
   Box,
   Toolbar,
   Menu,
-  Container,
   Button,
   MenuItem,
   IconButton,
@@ -31,7 +30,7 @@ function Header() {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Box px={2}>
         <Toolbar disableGutters>
           <EnergySavingsLeafIcon
             sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
@@ -130,16 +129,16 @@ function Header() {
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
               size="large"
-              aria-label="show 17 new notifications"
+              aria-label="show 3 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={7} color="error">
+              <Badge badgeContent={3} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
           </Box>
         </Toolbar>
-      </Container>
+      </Box>
     </AppBar>
   );
 }

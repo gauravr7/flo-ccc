@@ -1,4 +1,3 @@
-import './App.css';
 import { Box } from '@mui/material';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
