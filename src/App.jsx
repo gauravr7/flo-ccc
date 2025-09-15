@@ -5,9 +5,11 @@ import Dashboard from './components/Dashboard';
 import Innovate from './components/Innovate';
 import Prompt from './components/Prompt';
 
+const basename = import.meta.env.PROD ? '/flo-ccc' : '/';
+
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <Header />
       <Box p={2}>
         <Routes>
