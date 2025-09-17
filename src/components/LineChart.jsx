@@ -84,7 +84,6 @@ export default function LineChart({
     return [{ id: chartKeys, data: transformed }];
   }, [serverData]);
 
-  console.log('ysl-', chartData);
   return (
     <Root container direction="column" justifyContent="space-between">
       <Grid item>
