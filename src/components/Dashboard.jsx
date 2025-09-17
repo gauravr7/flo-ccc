@@ -17,8 +17,11 @@ import {
 import { styled } from '@mui/material/styles';
 import LineChart from './LineChart';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
+import Co2Icon from '@mui/icons-material/Co2';
 import axiosInstance from '../util/axios';
 import { formatDate } from '../util/formatter';
+import Heatmap from './Heatmap';
 
 const Root = styled(Box, {
   label: 'dashboard',
@@ -31,11 +34,12 @@ const Root = styled(Box, {
 }));
 
 function Dashboard() {
-  const [dashboardData, setDashboardData] = useState({});
   //API: 8001/analytics
+  const [dashboardData, setDashboardData] = useState({});
+
   useEffect(() => {
     axiosInstance
-      .get('/api/analytics')
+      .get('http://localhost:8001/analytics')
       .then(function (response) {
         if (response.data) {
           console.log(response.data);
@@ -108,9 +112,9 @@ function Dashboard() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} mt={2}>
+      <Grid container spacing={2} mt={2} alignItems="stretch">
         <Grid size={6}>
-          <Paper elevation={3}>
+          <Paper elevation={3} sx={{ height: '100%' }}>
             <Box p={2}>
               <Grid container item justifyContent="space-between" mb={1}>
                 <Grid item>
@@ -122,9 +126,9 @@ function Dashboard() {
                 </Grid>
 
                 <Grid item>
-                  <Tooltip title={'sample'}>
+                  <Tooltip title={'Details'}>
                     <IconButton>
-                      <InfoOutlinedIcon />
+                      <Co2Icon />
                     </IconButton>
                   </Tooltip>
                 </Grid>
@@ -140,18 +144,56 @@ function Dashboard() {
           </Paper>
         </Grid>
         <Grid size={6}>
-          <Paper elevation={3}>
+          <Paper elevation={3} sx={{ height: '100%' }}>
             <Box p={2}>
-              <Typography variant="h6">Heat Map - Carbon Emission</Typography>
+              <Grid container item justifyContent="space-between" mb={1}>
+                <Grid item>
+                  <Box>
+                    <Typography variant="h6">
+                      Carbon Emission in last 7 Days
+                    </Typography>
+                  </Box>
+                </Grid>
+
+                <Grid item>
+                  <Tooltip title={'Details'}>
+                    <IconButton>
+                      <Co2Icon />
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
+              </Grid>
+
+              <Heatmap
+                data={dashboardData?.carbon_heatmap_data || []}
+                dataKey="carbon_emission"
+              />
             </Box>
           </Paper>
         </Grid>
+      </Grid>
+
+      <Grid container spacing={2} mt={2} alignItems="stretch">
         <Grid size={6}>
-          <Paper elevation={3}>
+          <Paper elevation={3} sx={{ height: '100%' }}>
             <Box p={2}>
-              <Typography variant="h6">
-                Energy Consumed in last 7 days
-              </Typography>
+              <Grid container item justifyContent="space-between" mb={1}>
+                <Grid item>
+                  <Box>
+                    <Typography variant="h6">
+                      Energy Consumed in last 7 days
+                    </Typography>
+                  </Box>
+                </Grid>
+
+                <Grid item>
+                  <Tooltip title={'Details'}>
+                    <IconButton>
+                      <EnergySavingsLeafIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
+              </Grid>
               <LineChart
                 chartKeys={'Energy'}
                 color={'#f47560'}
@@ -163,9 +205,29 @@ function Dashboard() {
           </Paper>
         </Grid>
         <Grid size={6}>
-          <Paper elevation={3}>
+          <Paper elevation={3} sx={{ height: '100%' }}>
             <Box p={2}>
-              <Typography variant="h6">Heat Map - Energy Consumed</Typography>
+              <Grid container item justifyContent="space-between" mb={1}>
+                <Grid item>
+                  <Box>
+                    <Typography variant="h6">
+                      Energy Consumed in last 7 Days
+                    </Typography>
+                  </Box>
+                </Grid>
+
+                <Grid item>
+                  <Tooltip title={'Details'}>
+                    <IconButton>
+                      <EnergySavingsLeafIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
+              </Grid>
+              <Heatmap
+                data={dashboardData?.energy_heatmap_data || []}
+                dataKey="energy_consumed"
+              />
             </Box>
           </Paper>
         </Grid>

@@ -1,17 +1,51 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Grid, Paper } from '@mui/material';
+import { Box, Typography, Grid, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import { ResponsiveLine } from '@nivo/line';
 
-const classes = {};
+const classes = {
+  label: 'label',
+  value: 'value',
+  tooltipButton: 'tooltip-button',
+  tooltipLabel: 'tooltip-label',
+  icon: 'icon',
+};
 
 const Root = styled(Grid, { label: 'lineChart' })(({ theme }) => ({
   height: '100%',
   backgroundColor: theme.palette.common.white,
   borderRadius: theme.spacing(2),
   padding: theme.spacing(2),
+
+  [`& .${classes.label}`]: {
+    fontWeight: 700,
+    textTransform: 'capitalize',
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+  [`& .${classes.value}`]: {
+    lineHeight: 1,
+  },
+
+  [`& .${classes.icon}`]: {
+    marginRight: theme.spacing(1),
+  },
+
+  [`& .${classes.tooltipButton}`]: {
+    padding: 0,
+  },
+
+  [`& .${classes.tooltipLabel}`]: {
+    fontSize: '12px',
+    fontWeight: 700,
+    display: 'flex',
+    borderRadius: theme.spacing(1),
+    whiteSpace: 'nowrap',
+    padding: theme.spacing(1, 1.5),
+  },
 }));
 
 export default function LineChart({
@@ -48,7 +82,7 @@ export default function LineChart({
     });
 
     return [{ id: chartKeys, data: transformed }];
-  }, []);
+  }, [serverData]);
 
   console.log('ysl-', chartData);
   return (
