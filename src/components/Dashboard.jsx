@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
   Grid,
   Paper,
   Typography,
+  Tooltip,
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -12,6 +15,10 @@ import {
   TableRow,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import LineChart from './LineChart';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import axiosInstance from '../util/axios';
+import { formatDate } from '../util/formatter';
 
 const Root = styled(Box, {
   label: 'dashboard',
@@ -23,19 +30,23 @@ const Root = styled(Box, {
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 function Dashboard() {
+  const [dashboardData, setDashboardData] = useState({});
+  //API: 8001/analytics
+  useEffect(() => {
+    axiosInstance
+      .get('/api/analytics')
+      .then(function (response) {
+        if (response.data) {
+          console.log(response.data);
+          setDashboardData(response.data);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <Root>
       <Grid container spacing={2}>
@@ -43,7 +54,9 @@ function Dashboard() {
           <Paper elevation={3}>
             <Box p={2}>
               <Typography variant="h6">Total Prompt Tokens</Typography>
-              <Typography variant="h3">44444</Typography>
+              <Typography variant="h3">
+                {dashboardData?.overview?.TOTAL_TOKEN_COUNT}
+              </Typography>
             </Box>
           </Paper>
         </Grid>
@@ -52,7 +65,7 @@ function Dashboard() {
             <Box p={2}>
               <Typography variant="h6">Total Carbon Emission</Typography>
               <Typography variant="h3">
-                232
+                {dashboardData?.overview?.TOTAL_CARBON_EMISSION}
                 <Typography component="span" className="unit">
                   CO2e
                 </Typography>
@@ -64,7 +77,9 @@ function Dashboard() {
           <Paper elevation={3}>
             <Box p={2}>
               <Typography variant="h6">Total API Calls</Typography>
-              <Typography variant="h3">675</Typography>
+              <Typography variant="h3">
+                {dashboardData?.overview?.TOTAL_APIS}
+              </Typography>
             </Box>
           </Paper>
         </Grid>
@@ -73,7 +88,7 @@ function Dashboard() {
             <Box p={2}>
               <Typography variant="h6">Total Energy Consumed</Typography>
               <Typography variant="h3">
-                343
+                {dashboardData?.overview?.TOTAL_ENERGY_CONSUMED}
                 <Typography component="span" className="unit">
                   Watt
                 </Typography>
@@ -85,7 +100,9 @@ function Dashboard() {
           <Paper elevation={3}>
             <Box p={2}>
               <Typography variant="h6">Total Cost</Typography>
-              <Typography variant="h3">$ 344</Typography>
+              <Typography variant="h3">
+                $ {dashboardData?.overview?.TOTAL_COST}
+              </Typography>
             </Box>
           </Paper>
         </Grid>
@@ -95,7 +112,30 @@ function Dashboard() {
         <Grid size={6}>
           <Paper elevation={3}>
             <Box p={2}>
-              <Typography variant="h6">Line Graph - Carbon Emission</Typography>
+              <Grid container item justifyContent="space-between" mb={1}>
+                <Grid item>
+                  <Box>
+                    <Typography variant="h6" color="textPrimary">
+                      Carbon Emission in last 7 days
+                    </Typography>
+                  </Box>
+                </Grid>
+
+                <Grid item>
+                  <Tooltip title={'sample'}>
+                    <IconButton>
+                      <InfoOutlinedIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
+              </Grid>
+              <LineChart
+                chartKeys={'Emission'}
+                color={'#61cdbb'}
+                serverData={dashboardData?.carbon_line_graph_data || []}
+                dataKey="carbon_emission"
+                unit="CO₂e"
+              />
             </Box>
           </Paper>
         </Grid>
@@ -109,7 +149,16 @@ function Dashboard() {
         <Grid size={6}>
           <Paper elevation={3}>
             <Box p={2}>
-              <Typography variant="h6">Line Graph - Energy Consumed</Typography>
+              <Typography variant="h6">
+                Energy Consumed in last 7 days
+              </Typography>
+              <LineChart
+                chartKeys={'Energy'}
+                color={'#f47560'}
+                serverData={dashboardData?.energy_line_graph_data || []}
+                dataKey="energy_consumed"
+                unit="watt"
+              />
             </Box>
           </Paper>
         </Grid>
@@ -128,26 +177,40 @@ function Dashboard() {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Dessert (100g serving)</TableCell>
-                <TableCell align="right">Calories</TableCell>
-                <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                <TableCell>ID</TableCell>
+                <TableCell>Model</TableCell>
+                <TableCell>Prompt tokens</TableCell>
+                <TableCell>Completion tokens</TableCell>
+                <TableCell>Total tokens</TableCell>
+                <TableCell>Created at</TableCell>
+                <TableCell align="right">Total cost</TableCell>
+                <TableCell align="right">Energy consumed</TableCell>
+                <TableCell align="right">Carbon emission</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {dashboardData?.latest_entries?.map((row, index) => (
                 <TableRow
-                  key={row.name}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  key={row.id}
+                  sx={{
+                    backgroundColor: index % 2 === 0 ? 'white' : '#f9f9f9',
+                  }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {row.id}
                   </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
+                  <TableCell>{row.model}</TableCell>
+                  <TableCell>{row.prompt_tokens}</TableCell>
+                  <TableCell>{row.completion_tokens}</TableCell>
+                  <TableCell>{row.total_tokens}</TableCell>
+                  <TableCell>{formatDate(row.created_at)}</TableCell>
+                  <TableCell align="right">{row.total_cost} $</TableCell>
+                  <TableCell align="right">
+                    {row.energy_consumed} Watt
+                  </TableCell>
+                  <TableCell align="right">
+                    {row.carbon_emission} Coe2
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

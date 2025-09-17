@@ -9,7 +9,7 @@ const basename = import.meta.env.PROD ? '/flo-ccc' : '/';
 
 function App() {
   return (
-    <BrowserRouter basename={basename}>
+    <BrowserRouter basename={'/'}>
       <Header />
       <Box p={2}>
         <Routes>

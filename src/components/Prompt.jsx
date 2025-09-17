@@ -9,6 +9,7 @@ const Root = styled(Box)(({ theme }) => ({
 }));
 
 function Prompt() {
+  // API: 8002/call-llm
   return (
     <Root>
       {/* Output Window */}
@@ -34,6 +35,7 @@ function Prompt() {
           variant="outlined"
           placeholder="Please enter your prompt here"
         />
+        {/* insert a dropdown for selecting model */}
         <Button
           variant="contained"
           sx={{ bgcolor: 'purple', color: 'white', textTransform: 'none' }}
