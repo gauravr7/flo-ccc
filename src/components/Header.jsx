@@ -64,7 +64,7 @@ function Header() {
             >
               <MenuIcon />
             </IconButton>
-            <Menu
+            {/* <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -90,7 +90,7 @@ function Header() {
                   <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
                 </MenuItem>
               ))}
-            </Menu>
+            </Menu> */}
           </Box>
           <EnergySavingsLeafIcon
             sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}
@@ -114,7 +114,7 @@ function Header() {
             CCC
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {/* {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
@@ -124,7 +124,7 @@ function Header() {
               >
                 {page}
               </Button>
-            ))}
+            ))} */}
           </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton

@@ -9,6 +9,13 @@
 ### Open running app in the browser at: 
 http://localhost:5173/
 
+## App Pages
+
+- [Dashboard](http://localhost:5173/dashboard)
+- [Prompt](http://localhost:5173/prompt)
+- [Optimise](http://localhost:5173/optimise)
+- [Generate](http://localhost:5173/generate)
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

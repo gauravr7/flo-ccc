@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
   Box,
-  Button,
   Grid,
   Paper,
   Typography,
@@ -13,6 +12,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Backdrop,
+  CircularProgress,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import LineChart from './LineChart';
@@ -37,8 +38,10 @@ function Dashboard() {
   const [dashboardData, setDashboardData] = useState({});
   const [countdown, setCountdown] = useState(500);
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [openLoader, setOpenLoader] = useState(false);
 
   const fetchDashboardData = () => {
+    setOpenLoader(true);
     axiosInstance
       .get('http://localhost:8001/analytics')
       .then((response) => {
@@ -46,10 +49,12 @@ function Dashboard() {
           setDashboardData(response.data);
           setLastUpdated(new Date()); // save timestamp
           console.log('Data updated at', new Date().toLocaleTimeString());
+          setOpenLoader(false);
         }
       })
       .catch((error) => {
         console.error(error);
+        setOpenLoader(false);
       });
   };
 
@@ -71,6 +76,12 @@ function Dashboard() {
 
   return (
     <Root>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openLoader}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Grid container spacing={2} justifyContent="space-between" mb={2}>
         <Grid size={2}>
           <Typography variant="body2" color="textSecondary">
@@ -200,6 +211,7 @@ function Dashboard() {
               <Heatmap
                 data={dashboardData?.carbon_heatmap_data || []}
                 dataKey="carbon_emission"
+                color="red"
               />
             </Box>
           </Paper>
@@ -260,6 +272,7 @@ function Dashboard() {
               <Heatmap
                 data={dashboardData?.energy_heatmap_data || []}
                 dataKey="energy_consumed"
+                color="green"
               />
             </Box>
           </Paper>
