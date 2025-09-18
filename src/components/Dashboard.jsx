@@ -179,7 +179,7 @@ function Dashboard() {
               </Grid>
               <LineChart
                 chartKeys={'Emission'}
-                color={'#61cdbb'}
+                color={'#f47560'}
                 serverData={dashboardData?.carbon_line_graph_data || []}
                 dataKey="carbon_emission"
                 unit="CO₂e"
@@ -241,7 +241,7 @@ function Dashboard() {
               </Grid>
               <LineChart
                 chartKeys={'Energy'}
-                color={'#f47560'}
+                color={'#61cdbb'}
                 serverData={dashboardData?.energy_line_graph_data || []}
                 dataKey="energy_consumed"
                 unit="watt"
