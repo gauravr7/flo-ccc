@@ -7,6 +7,7 @@ import {
   Paper,
   CircularProgress,
   MenuItem,
+  Grid,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import axiosInstance from '../util/axios';
@@ -14,13 +15,10 @@ import axiosInstance from '../util/axios';
 const Root = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(2),
-  padding: theme.spacing(3),
+  padding: theme.spacing(0, 2),
 }));
 
 function Prompt() {
-  // API: 8002/call-llm
-
   const [formData, setFormData] = useState({
     INPUT_PROMPT: '',
     MODEL: 'sonar',
@@ -40,7 +38,7 @@ function Prompt() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    console.log(formData);
+
     try {
       const response = await axiosInstance.post(
         'http://localhost:8002/call-llm',
@@ -50,7 +48,6 @@ function Prompt() {
         }
       );
       setResponseData(response.data);
-      //confirm to clear the field after completion
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -60,15 +57,19 @@ function Prompt() {
 
   return (
     <Root>
-      {/* Output Window */}
+      <Box display={'flex'} justifyContent="space-between" alignItems="center">
+        <Typography variant="h6">Output Prompt:</Typography>
+      </Box>
+
       <Paper
         elevation={1}
         sx={{
-          height: 250,
+          minHeight: '350px',
+          height: `calc(100vh - 280px)`,
           bgcolor: '#e0e0e0',
           p: 2,
-          display: 'flex',
-          alignItems: 'flex-start',
+
+          overflowY: 'auto',
         }}
       >
         {loading ? (
@@ -86,37 +87,47 @@ function Prompt() {
         )}
       </Paper>
 
-      <Typography variant="body2" color="textSecondary">
-        TOTAL_TOKEN_COUNT :{responseData?.TOTAL_TOKEN_COUNT}
-      </Typography>
-
-      <Box display="flex" gap={1}>
+      <Box my={2}>
         <form onSubmit={handleSubmit}>
-          <TextField
-            name="INPUT_PROMPT"
-            fullWidth
-            variant="outlined"
-            placeholder="Please enter your prompt here"
-            label="Input Prompt"
-            onChange={handleChange}
-          />
-
-          <TextField
-            select
-            name="MODEL"
-            value={formData.MODEL}
-            onChange={handleChange}
-            variant="outlined"
-            sx={{ minWidth: 140 }}
-            label="Model"
-          >
-            <MenuItem value="sonar">Sonar</MenuItem>
-            <MenuItem value="sonar-reasoning-pro">Sonar reasoning pro</MenuItem>
-          </TextField>
-          {/* end dropdown */}
-          <Button variant="contained" type="submit">
-            Submit
-          </Button>
+          <Grid container spacing={2} alignItems="stretch">
+            <Grid size={9}>
+              <TextField
+                name="INPUT_PROMPT"
+                fullWidth
+                variant="outlined"
+                placeholder="Please enter your prompt here"
+                label="Input Prompt"
+                onChange={handleChange}
+                multiline={true}
+              />
+            </Grid>
+            <Grid size={3}>
+              <TextField
+                select
+                name="MODEL"
+                value={formData.MODEL}
+                onChange={handleChange}
+                fullWidth
+                variant="outlined"
+                label="Model"
+              >
+                <MenuItem value="sonar">Sonar</MenuItem>
+                <MenuItem value="sonar-pro">Sonar pro</MenuItem>
+                <MenuItem value="sonar-deep-research">
+                  Sonar deep research
+                </MenuItem>
+                <MenuItem value="sonar-reasoning">Sonar reasoning</MenuItem>
+                <MenuItem value="sonar-reasoning-pro">
+                  Sonar reasoning pro
+                </MenuItem>
+              </TextField>
+            </Grid>
+            <Grid size={12} textAlign="right">
+              <Button variant="contained" type="submit">
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
         </form>
       </Box>
     </Root>

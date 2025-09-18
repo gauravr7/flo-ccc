@@ -15,7 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
-const pages = ['Dashboard', 'Prompt', 'Innovate'];
+const pages = ['Dashboard', 'Prompt', 'Optimise', 'Generate'];
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = useState(null);

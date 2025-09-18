@@ -25,8 +25,8 @@ const GridWrapper = styled(Box)({
 });
 
 const Cell = styled(Box)({
-  width: 20,
-  height: 20,
+  width: 24,
+  height: 24,
   borderRadius: 2,
 });
 
@@ -42,8 +42,10 @@ export default function Heatmap({ data, dataKey }) {
   return (
     <Box>
       {dates.map((date) => (
-        <Box key={date} mb={1}>
-          <Typography variant="caption">{formatDate(date)}</Typography>
+        <Box key={date} mb={1} display="flex">
+          <Typography variant="caption" mr={1}>
+            {formatDate(date)}
+          </Typography>
           <GridWrapper>
             {Array.from({ length: 24 }, (_, hour) => {
               const value = grouped[date][hour];
@@ -59,6 +61,9 @@ export default function Heatmap({ data, dataKey }) {
           </GridWrapper>
         </Box>
       ))}
+      <Typography variant="caption" mr={1}>
+        Legened
+      </Typography>
     </Box>
   );
 }

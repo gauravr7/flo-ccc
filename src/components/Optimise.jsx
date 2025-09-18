@@ -14,12 +14,10 @@ const Root = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(3),
-  padding: theme.spacing(3),
+  padding: theme.spacing(0, 2),
 }));
 
-function Innovate() {
-  // API: 8003/optimize-green-prompt
-
+function Optimise() {
   const [formData, setFormData] = useState({
     USER_PROMPT: '',
   });
@@ -38,7 +36,7 @@ function Innovate() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    console.log(formData);
+
     try {
       const response = await axiosInstance.post(
         'http://localhost:8003/optimize-green-prompt',
@@ -47,7 +45,6 @@ function Innovate() {
         }
       );
       setResponseData(response.data);
-      //confirm to clear the field after completion
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -61,7 +58,7 @@ function Innovate() {
     try {
       await navigator.clipboard.writeText(responseData?.GREEN_PROMPT);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // reset after 2s
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy: ', err);
     }
@@ -70,9 +67,10 @@ function Innovate() {
   return (
     <Root>
       <Box>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="h6" my={1}>
           Input Prompt:
         </Typography>
+
         <form onSubmit={handleSubmit}>
           <Paper
             elevation={1}
@@ -100,13 +98,14 @@ function Innovate() {
       </Box>
 
       <Box>
-        <Typography variant="subtitle1" gutterBottom>
-          Green Prompt :
+        <Typography variant="h6" my={1}>
+          Green Prompt:
         </Typography>
+
         <Paper
           elevation={1}
           sx={{
-            minHeight: 120,
+            minHeight: 250,
             p: 2,
             bgcolor: '#f5f5f5',
             mb: 2,
@@ -126,6 +125,10 @@ function Innovate() {
             </Typography>
           )}
         </Paper>
+        <Typography variant="body1" mb={2}>
+          Tokens Saved: {responseData?.TOTAL_TOKEN_COUNT || 0}
+        </Typography>
+
         <Button
           variant="contained"
           color="success"
@@ -135,12 +138,8 @@ function Innovate() {
           {copied ? 'Copied!' : 'Copy'}
         </Button>
       </Box>
-
-      <Typography variant="subtitle1">
-        Tokens Saved: {responseData?.TOTAL_TOKEN_COUNT}
-      </Typography>
     </Root>
   );
 }
 
-export default Innovate;
+export default Optimise;

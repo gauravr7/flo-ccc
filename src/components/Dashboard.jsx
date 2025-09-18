@@ -34,41 +34,74 @@ const Root = styled(Box, {
 }));
 
 function Dashboard() {
-  //API: 8001/analytics
   const [dashboardData, setDashboardData] = useState({});
+  const [countdown, setCountdown] = useState(500);
+  const [lastUpdated, setLastUpdated] = useState(null);
 
-  useEffect(() => {
+  const fetchDashboardData = () => {
     axiosInstance
       .get('http://localhost:8001/analytics')
-      .then(function (response) {
+      .then((response) => {
         if (response.data) {
-          console.log(response.data);
           setDashboardData(response.data);
+          setLastUpdated(new Date()); // save timestamp
+          console.log('Data updated at', new Date().toLocaleTimeString());
         }
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error) => {
+        console.error(error);
       });
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev === 1) {
+          fetchDashboardData();
+          return 10;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
   }, []);
 
   return (
     <Root>
-      <Grid container spacing={2}>
-        <Grid size={3}>
-          <Paper elevation={3}>
+      <Grid container spacing={2} justifyContent="space-between" mb={2}>
+        <Grid size={2}>
+          <Typography variant="body2" color="textSecondary">
+            Updating in {countdown} seconds...
+          </Typography>
+        </Grid>
+        <Grid size={2} textAlign="right">
+          {lastUpdated && (
+            <Typography variant="caption" color="textSecondary">
+              Last updated at {lastUpdated.toLocaleTimeString()}
+            </Typography>
+          )}
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2} alignItems="stretch">
+        <Grid size={2}>
+          <Paper elevation={3} sx={{ height: '100%' }}>
             <Box p={2}>
               <Typography variant="h6">Total Prompt Tokens</Typography>
-              <Typography variant="h3">
+              <Typography variant="h4">
                 {dashboardData?.overview?.TOTAL_TOKEN_COUNT}
               </Typography>
             </Box>
           </Paper>
         </Grid>
         <Grid size={3}>
-          <Paper elevation={3}>
+          <Paper elevation={3} sx={{ height: '100%' }}>
             <Box p={2}>
               <Typography variant="h6">Total Carbon Emission</Typography>
-              <Typography variant="h3">
+              <Typography variant="h4">
                 {dashboardData?.overview?.TOTAL_CARBON_EMISSION}
                 <Typography component="span" className="unit">
                   CO2e
@@ -78,20 +111,20 @@ function Dashboard() {
           </Paper>
         </Grid>
         <Grid size={2}>
-          <Paper elevation={3}>
+          <Paper elevation={3} sx={{ height: '100%' }}>
             <Box p={2}>
               <Typography variant="h6">Total API Calls</Typography>
-              <Typography variant="h3">
+              <Typography variant="h4">
                 {dashboardData?.overview?.TOTAL_APIS}
               </Typography>
             </Box>
           </Paper>
         </Grid>
-        <Grid size={2}>
-          <Paper elevation={3}>
+        <Grid size={3}>
+          <Paper elevation={3} sx={{ height: '100%' }}>
             <Box p={2}>
               <Typography variant="h6">Total Energy Consumed</Typography>
-              <Typography variant="h3">
+              <Typography variant="h4">
                 {dashboardData?.overview?.TOTAL_ENERGY_CONSUMED}
                 <Typography component="span" className="unit">
                   Watt
@@ -101,10 +134,10 @@ function Dashboard() {
           </Paper>
         </Grid>
         <Grid size={2}>
-          <Paper elevation={3}>
+          <Paper elevation={3} sx={{ height: '100%' }}>
             <Box p={2}>
               <Typography variant="h6">Total Cost</Typography>
-              <Typography variant="h3">
+              <Typography variant="h4">
                 $ {dashboardData?.overview?.TOTAL_COST}
               </Typography>
             </Box>
@@ -233,8 +266,17 @@ function Dashboard() {
         </Grid>
       </Grid>
 
-      <Box mt={2}>
-        <Typography variant="h5">Recent Prompts</Typography>
+      <Box
+        mt={2}
+        sx={{
+          bgcolor: '#e0e0e0',
+          p: 2,
+          borderRadius: 4,
+        }}
+      >
+        <Typography variant="h5" mb={1}>
+          Recent Prompts
+        </Typography>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
