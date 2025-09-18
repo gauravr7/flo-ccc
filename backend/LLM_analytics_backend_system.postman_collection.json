@@ -1,0 +1,274 @@
+{
+	"info": {
+		"_postman_id": "6ce44562-03ea-4768-82b5-1d8aece54cae",
+		"name": "LLM_analytics_backend_system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31473463"
+	},
+	"item": [
+		{
+			"name": "https://api.perplexity.ai/chat/completions",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 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"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"model\": \"sonar\",\n    \"messages\": [\n      { \"role\": \"user\", \"content\": \"How are you\" }\n    ]\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.perplexity.ai/chat/completions",
+					"protocol": "https",
+					"host": [
+						"api",
+						"perplexity",
+						"ai"
+					],
+					"path": [
+						"chat",
+						"completions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/get_emission_analytics",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8001/analytics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"analytics"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET \"http://localhost:8001/analytics\" \\\r\n  -H \"accept: application/json\"\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "/store_emission_history",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"INPUT_PROMPT\": \"What is machine learning?\",\r\n    \"OUTPUT_PROMPT\": \"Machine learning is a subset of AI that enables computers to learn from data.\",\r\n    \"MODEL\": \"sonar-reasoning-pro\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8001/store-usage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"store-usage"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST \"http://localhost:8001/store-usage\" \\\r\n  -H \"Content-Type: application/json\" \\\r\n  -d '{\r\n    \"INPUT_PROMPT\": \"What is machine learning?\",\r\n    \"OUTPUT_PROMPT\": \"Machine learning is a subset of AI that enables computers to learn from data.\",\r\n    \"MODEL\": \"sonar-reasoning-pro\"\r\n  }'\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "/health_check_app_8001",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"health"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET \"http://localhost:8001/health\"\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "/chatbot_LLM_call_store_history",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"INPUT_PROMPT\": \"How are you\",\r\n    \"MODEL\": \"sonar\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8002/call-llm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"call-llm"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST \"http://localhost:8002/call-llm\" \\\r\n  -H \"Content-Type: application/json\" \\\r\n  -d '{\r\n    \"INPUT_PROMPT\": \"Explain quantum computing in simple terms\",\r\n    \"MODEL\": \"sonar-reasoning-pro\"\r\n  }'\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "/health_check_app_8002",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8002/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"health"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET \"http://localhost:8002/health\"\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "/optimize-green-prompt",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"USER_PROMPT\": \"Please could you kindly provide me with a very detailed and comprehensive explanation of machine learning algorithms, if possible with multiple examples and step-by-step instructions. I would really appreciate it if you could make sure to cover all the important aspects. Thank you very much.\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/optimize-green-prompt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"optimize-green-prompt"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST \"http://localhost:8003/generate-green-prompt\" \\\r\n  -H \"Content-Type: application/json\" \\\r\n  -d '{\r\n    \"USER_PROMPT\": \"Please could you kindly provide me with a very detailed and comprehensive explanation of machine learning algorithms, if possible with multiple examples and step-by-step instructions. I would really appreciate it if you could make sure to cover all the important aspects. Thank you very much.\"\r\n  }'\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "/generate-green-prompt",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_intent\": \"Analyze customer feedback and extract actionable insights\",\r\n    \"strict_guidelines\": \"Focus on quantifiable metrics; avoid subjective interpretations; prioritize high-impact issues\",\r\n    \"expected_output\": \"Bulleted list with 3-5 key insights, each with supporting data and recommended action\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/generate-green-prompt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"generate-green-prompt"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST \"http://localhost:8003/generate-green-prompt\" \\\r\n  -H \"Content-Type: application/json\" \\\r\n  -d '{\r\n    \"task_intent\": \"Analyze customer feedback and extract actionable insights\",\r\n    \"strict_guidelines\": \"Focus on quantifiable metrics; avoid subjective interpretations; prioritize high-impact issues\",\r\n    \"expected_output\": \"Bulleted list with 3-5 key insights, each with supporting data and recommended action\"\r\n  }'\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "/health_check_app_8003",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8003/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"health"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET \"http://localhost:8003/health\"\r\n"
+			},
+			"response": []
+		}
+	]
+}

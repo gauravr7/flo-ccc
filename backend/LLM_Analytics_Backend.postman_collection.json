@@ -1,0 +1,190 @@
+{
+  "info": {
+    "_postman_id": "6ce44562-03ea-4768-82b5-1d8ae",
+    "name": "LLM_Analytics_Backend_System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31473463"
+  },
+  "item": [
+    {
+      "name": "Analytics API - Get Analytics",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8001/analytics",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8001",
+          "path": [
+            "analytics"
+          ]
+        },
+        "description": "Get comprehensive analytics including overview stats, latest entries, and graph data"
+      }
+    },
+    {
+      "name": "Analytics API - Store Usage",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"INPUT_PROMPT\": \"What is machine learning?\",\n    \"OUTPUT_PROMPT\": \"Machine learning is a subset of AI that enables computers to learn from data.\",\n    \"MODEL\": \"sonar-reasoning-pro\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8001/store-usage",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8001",
+          "path": [
+            "store-usage"
+          ]
+        },
+        "description": "Store LLM usage data with automatic cost and environmental impact calculations"
+      }
+    },
+    {
+      "name": "Analytics API - Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8001/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8001",
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Health check endpoint for Analytics API"
+      }
+    },
+    {
+      "name": "LLM Calling API - Call LLM",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"INPUT_PROMPT\": \"Explain quantum computing in simple terms\",\n    \"MODEL\": \"sonar-reasoning-pro\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8002/call-llm",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8002",
+          "path": [
+            "call-llm"
+          ]
+        },
+        "description": "Call Perplexity AI and automatically store usage data"
+      }
+    },
+    {
+      "name": "LLM Calling API - Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8002/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8002",
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Health check endpoint for LLM Calling API"
+      }
+    },
+    {
+      "name": "Green Prompt Generator - Generate Green Prompt",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"USER_PROMPT\": \"Please could you kindly provide me with a very detailed and comprehensive explanation of machine learning algorithms, if possible with multiple examples and step-by-step instructions. I would really appreciate it if you could make sure to cover all the important aspects. Thank you very much.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8003/generate-green-prompt",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8003",
+          "path": [
+            "generate-green-prompt"
+          ]
+        },
+        "description": "Generate an optimized green prompt to reduce token usage and environmental impact"
+      }
+    },
+    {
+      "name": "Green Prompt Generator - Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8003/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8003",
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Health check endpoint for Green Prompt Generator API"
+      }
+    }
+  ]
+}
