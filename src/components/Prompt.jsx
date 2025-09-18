@@ -90,17 +90,6 @@ function Prompt() {
       <Box my={2}>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2} alignItems="stretch">
-            <Grid size={9}>
-              <TextField
-                name="INPUT_PROMPT"
-                fullWidth
-                variant="outlined"
-                placeholder="Please enter your prompt here"
-                label="Input Prompt"
-                onChange={handleChange}
-                multiline={true}
-              />
-            </Grid>
             <Grid size={3}>
               <TextField
                 select
@@ -121,6 +110,18 @@ function Prompt() {
                   Sonar reasoning pro
                 </MenuItem>
               </TextField>
+            </Grid>
+            <Grid size={9}>
+              <TextField
+                name="INPUT_PROMPT"
+                fullWidth
+                variant="outlined"
+                placeholder="Please enter your prompt here"
+                label="Input Prompt"
+                onChange={handleChange}
+                multiline={true}
+                InputLabelProps={{ shrink: true }}
+              />
             </Grid>
             <Grid size={12} textAlign="right">
               <Button variant="contained" type="submit">

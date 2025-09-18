@@ -13,7 +13,7 @@ import axiosInstance from '../util/axios';
 const Root = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(3),
+
   padding: theme.spacing(0, 2),
 }));
 
@@ -36,6 +36,7 @@ function Optimise() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setResponseData({});
 
     try {
       const response = await axiosInstance.post(
@@ -90,10 +91,10 @@ function Optimise() {
               multiline
               rows={6}
             />
+            <Button variant="contained" type="submit" sx={{ mt: 2 }}>
+              Submit
+            </Button>
           </Paper>
-          <Button variant="contained" type="submit">
-            Submit
-          </Button>
         </form>
       </Box>
 
