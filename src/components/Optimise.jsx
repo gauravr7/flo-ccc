@@ -126,9 +126,9 @@ function Optimise() {
             </Typography>
           )}
         </Paper>
-        <Typography variant="body1" mb={2}>
+        {/* <Typography variant="body1" mb={2}>
           Tokens Saved: {responseData?.TOTAL_TOKEN_COUNT || 0}
-        </Typography>
+        </Typography> */}
 
         <Button
           variant="contained"
