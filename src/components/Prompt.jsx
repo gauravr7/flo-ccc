@@ -102,13 +102,13 @@ function Prompt() {
               >
                 <MenuItem value="sonar">Sonar</MenuItem>
                 <MenuItem value="sonar-pro">Sonar pro</MenuItem>
-                <MenuItem value="sonar-deep-research">
+                {/* <MenuItem value="sonar-deep-research">
                   Sonar deep research
                 </MenuItem>
                 <MenuItem value="sonar-reasoning">Sonar reasoning</MenuItem>
                 <MenuItem value="sonar-reasoning-pro">
                   Sonar reasoning pro
-                </MenuItem>
+                </MenuItem> */}
               </TextField>
             </Grid>
             <Grid size={9}>
